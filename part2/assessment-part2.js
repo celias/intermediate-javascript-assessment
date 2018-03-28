@@ -42,9 +42,14 @@ function noWeakLink() {
   return $http({
     method: 'GET',
     url: '/api/users'
+  }).then(function(response) {
+    firstUser = response.data[0];
+    return response;
   })
-  // CODE HERE...
-
+  .then(function(response2) {
+    thirdUser = response2.data[2];
+    return response2.data[9];
+  })
 }
 
 
@@ -75,7 +80,8 @@ function large() {
 }
 // CODE HERE...
 
-
+var boundToElephant = large.bind(elephant);
+boundToElephant();
 
 // *************
 // * PROBLEM 3 *
@@ -88,6 +94,7 @@ function large() {
 // and return the bound function.
 
 // CODE HERE...
+const deathStar = (capacity, crew) => capacity.bind(crew);
 
 
 
@@ -104,6 +111,11 @@ function large() {
 
 // CODE HERE...
 
+function accountingOffice(assets) {
+  return function(liabilities) {
+    return assets + liabilities;
+  };
+}
 
 
 // *************
@@ -129,7 +141,18 @@ function large() {
 
 // CODE HERE...
 
+function forgetter(name) {
+  let thingsToRemember = {
+    name: name,
+    remember: []
+  };
 
+  let rememberall = function(item) {
+    thingsToRemember.remember.push(item);
+    return thingsToRemember;
+  };
+  return rememberall;
+} 
 
 // *************
 // * PROBLEM 6 *
@@ -156,3 +179,45 @@ function large() {
 // NOTE: Neither hunger nor danger should be able to exceed 100 or drop below 0.
 
 // CODE HERE...
+function frodo(startingHungerValue, startingDangerValue) {
+  let hungry = startingHungerValue;
+  let inDanger = startingDangerValue;
+
+  return {
+    dinnerOverFire: function() {
+      hungry -= 25;
+      inDanger += 40;
+      if (hungry < 0) {
+        hungry = 0;
+      }
+      if (hungry > 100) {
+        hungry = 100;
+      }
+      if (inDanger < 0) {
+        inDanger = 0;
+      }
+      if (inDanger > 100) {
+        inDanger = 100;
+      }
+      return { hunger: hungry, danger: inDanger };
+    },
+
+    hidingInBush: function() {
+      hungry += 35;
+      inDanger -= 20;
+      if (hungry < 0) {
+        hungry = 0;
+      }
+      if (hungry > 100) {
+        hungry = 100;
+      }
+      if (inDanger < 0) {
+        inDanger = 0;
+      }
+      if (inDanger > 100) {
+        inDanger = 100;
+      }
+      return { hunger: hungry, danger: inDanger };
+    }
+  };
+}
